@@ -4,7 +4,7 @@
 
 ## Question 1
 
-Restful application with Symfony Framework
+Restful application with Lumen Framework
 
 
 ## Question 2
