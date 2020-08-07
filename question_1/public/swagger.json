@@ -1,0 +1,485 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "JustMop Question 1 App",
+        "description": "Booking Restful service for cleaners and companies",
+        "contact": {
+            "name": "Alihuseyn Gulmammadov",
+            "email": "alihuseyn13@list.ru"
+        },
+        "version": "1.0"
+    },
+    "paths": {
+        "/cleaners/available/{date}": {
+            "get": {
+                "tags": [
+                    "Available"
+                ],
+                "summary": "Return all cleaners available time slot for the given date",
+                "description": "Return all cleaners available time slot for the given date",
+                "operationId": "App\\Http\\Controllers\\AvailableController::index",
+                "parameters": [
+                    {
+                        "name": "date",
+                        "in": "path",
+                        "description": "Available Date",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of all cleaners' available time slot",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "items": {
+                                        "$ref": "#/components/schemas/AvailableResponse"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid date or less than today",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SimpleErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity"
+                    }
+                }
+            }
+        },
+        "/cleaners/{id}/bookings": {
+            "get": {
+                "tags": [
+                    "Booking"
+                ],
+                "summary": "Retrieve cleaner bookings information",
+                "description": "Retrieve cleaner bookings information",
+                "operationId": "App\\Http\\Controllers\\BookingController::index",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Cleaner ID",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "description": "Retrieve cleaner bookings information",
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/BookingResponse"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Booking"
+                ],
+                "summary": "Create new booking for cleaners",
+                "description": "Create new booking for cleaners",
+                "operationId": "App\\Http\\Controllers\\BookingController::create",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Cleaner ID",
+                        "required": true
+                    }
+                ],
+                "requestBody": {
+                    "description": "Booking information detail",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "company": {
+                                        "description": "Create new booking for cleaners",
+                                        "type": "integer"
+                                    },
+                                    "start": {
+                                        "description": "Create new booking for cleaners",
+                                        "type": "string"
+                                    },
+                                    "end": {
+                                        "description": "Create new booking for cleaners",
+                                        "type": "string"
+                                    },
+                                    "date": {
+                                        "description": "Create new booking for cleaners",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Created"
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SimpleErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/cleaners/{cleaner_id}/bookings/{booking_id}": {
+            "delete": {
+                "tags": [
+                    "Booking"
+                ],
+                "summary": "Delete available booking",
+                "description": "Delete available booking",
+                "operationId": "App\\Http\\Controllers\\BookingController::destroy",
+                "parameters": [
+                    {
+                        "name": "cleaner_id",
+                        "in": "path",
+                        "description": "Cleaner ID",
+                        "required": true
+                    },
+                    {
+                        "name": "booking_id",
+                        "in": "path",
+                        "description": "Booking ID",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "202": {
+                        "description": "Accepted"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            },
+            "patch": {
+                "tags": [
+                    "Booking"
+                ],
+                "summary": "Update available booking information",
+                "description": "Update available booking information",
+                "operationId": "App\\Http\\Controllers\\BookingController::update",
+                "parameters": [
+                    {
+                        "name": "cleaner_id",
+                        "in": "path",
+                        "description": "Cleaner ID",
+                        "required": true
+                    },
+                    {
+                        "name": "booking_id",
+                        "in": "path",
+                        "description": "Booking ID",
+                        "required": true
+                    }
+                ],
+                "requestBody": {
+                    "description": "Booking information detail",
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "start": {
+                                        "description": "Update available booking information",
+                                        "type": "string"
+                                    },
+                                    "end": {
+                                        "description": "Update available booking information",
+                                        "type": "string"
+                                    },
+                                    "date": {
+                                        "description": "Update available booking information",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "202": {
+                        "description": "Accepted"
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/SimpleErrorResponse"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/cleaners": {
+            "get": {
+                "tags": [
+                    "Cleaners"
+                ],
+                "summary": "Retrieve all cleaners",
+                "description": "Retrieve all cleaners",
+                "operationId": "App\\Http\\Controllers\\CleanerController::index",
+                "responses": {
+                    "200": {
+                        "description": "List of all cleaners",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "description": "Return list of all cleaners",
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/CleanerResponse"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Cleaners"
+                ],
+                "summary": "Create new cleaner",
+                "description": "Create new cleaner",
+                "operationId": "App\\Http\\Controllers\\CleanerController::create",
+                "requestBody": {
+                    "description": "Cleaner name identifier",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "description": "Create new cleaner",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Created"
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity"
+                    }
+                }
+            }
+        },
+        "/companies": {
+            "get": {
+                "tags": [
+                    "Companies"
+                ],
+                "summary": "Retrieve all companies",
+                "description": "Retrieve all companies",
+                "operationId": "App\\Http\\Controllers\\CompanyController::index",
+                "responses": {
+                    "200": {
+                        "description": "List of all companies",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "description": "Return list of all companies",
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/CompanyResponse"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Companies"
+                ],
+                "summary": "Create new company",
+                "description": "Create new company",
+                "operationId": "App\\Http\\Controllers\\CompanyController::create",
+                "requestBody": {
+                    "description": "Company name identifier",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "description": "Create new company",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Created"
+                    },
+                    "422": {
+                        "description": "Unprocessable Entity"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "HourSlotResponse": {
+                "title": "HourSlot",
+                "properties": {
+                    "start": {
+                        "description": "Return all cleaners available time slot for the given date",
+                        "type": "string"
+                    },
+                    "end": {
+                        "description": "Return all cleaners available time slot for the given date",
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "AvailableResponse": {
+                "title": "Available",
+                "properties": {
+                    "id": {
+                        "description": "Return all cleaners available time slot for the given date",
+                        "type": "integer"
+                    },
+                    "name": {
+                        "description": "Return all cleaners available time slot for the given date",
+                        "type": "string"
+                    },
+                    "available": {
+                        "description": "Return all cleaners available time slot for the given date",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/HourSlotResponse"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "SimpleErrorResponse": {
+                "title": "SimpleError",
+                "properties": {
+                    "error": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "BookingResponse": {
+                "title": "Booking",
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "hour": {
+                        "$ref": "#/components/schemas/HourSlotResponse"
+                    },
+                    "date": {
+                        "type": "string"
+                    },
+                    "company": {
+                        "$ref": "#/components/schemas/CompanyResponse"
+                    }
+                },
+                "type": "object"
+            },
+            "CleanerResponse": {
+                "title": "Cleaner",
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "name": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "CompanyResponse": {
+                "title": "Company",
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "name": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            }
+        }
+    }
+}
